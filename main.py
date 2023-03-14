@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -15,6 +15,10 @@ sql.execute('''CREATE TABLE IF NOT EXISTS robot
 db.commit()
 db.close()
 #
+
+
+def hello():
+    return jsonify({"message": "Hello from Flask!"})
 
 
 @app.route('/')
