@@ -17,6 +17,7 @@ db.close()
 #
 
 
+@app.route("/api/hello")
 def hello():
     return jsonify({"message": "Hello from Flask!"})
 
