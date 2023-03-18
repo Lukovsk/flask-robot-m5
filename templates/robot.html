@@ -7,12 +7,24 @@
     <title>Robot Control</title>
   </head>
   <body>
+    <script>
+        function apear() {
+          for (var i = 0; i < 3; i++) {
+            console.log(result[i]);
+            document.getElementById("other_positions").innerHTML += `${}a <br />`;
+        }
+      }
+    </script>
     <h1>Tentativa de integração do robo com o coiso enfim</h1>
 
     <div>
       <h2>Posição atual do robo:</h2>
-      x = {{result[1]}}, y = {{result[2]}}, z = {{result[3]}}
+      <p>
+        passo: {{result[0][0]}}, x = {{result[0][1]}}, y = {{result[0][2]}}, z =
+        {{result[0][3]}}
+      </p>
     </div>
+
     <br />
     <div>
       <h2>Adicionar posição:</h2>
@@ -31,6 +43,11 @@
 
         <input type="submit" value="Add position" />
       </form>
+    </div>
+
+    <div>
+      <h2 onclick="apear()">Outras posições do robô:</h2>
+      <p id="other_positions"></p>
     </div>
   </body>
 </html>

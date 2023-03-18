@@ -19,15 +19,18 @@ db.close()
 
 @app.route('/')
 def robot():
-    db = sqlite3.connect('robot.db')
-    sql = db.cursor()
-    sql.execute('SELECT * FROM robot ORDER BY id DESC LIMIT 1')
-    result = sql.fetchone()
-    db.close()
-    if result:
+    try:
+        db = sqlite3.connect('robot.db')
+        sql = db.cursor()
+        # sql.execute('SELECT * FROM robot ORDER BY id DESC LIMIT 1')
+        sql.execute('SELECT * FROM robot ORDER BY id DESC')
+        result = sql.fetchall()
+        for position in result:
+            print(position)
+        db.close()
         return render_template('robot.html', result=result)
-    else:
-        return render_template('robot.html', result='Posicao nao encontrada')
+    except Exception as e:
+        return render_template('robot.html', result=str(e))
 
 
 # Mostrar posição do robo
@@ -45,7 +48,7 @@ def robot():
 #         return jsonify({'error': 'Posicao do robo nao encontrada'})
 
 # Definir a posição do robo
-@app.route('/set_position', methods=['POST'])
+@app.post('/set_position')
 def set_robot_position():
     x = request. form['x']
     y = request. form['y']
