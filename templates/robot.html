@@ -5,49 +5,114 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Robot Control</title>
-  </head>
-  <body>
+    <link rel="stylesheet" href="../static/style.css" type="text/css" />
+    <meta http-equiv="refresh" content="5; http://127.0.0.1:5000" />
+    <!-- Jquery scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Libs for interactive map -->
+    <script src="https://cdn3.devexpress.com/jslib/22.1.6/js/dx.all.js"></script>
+
+    <!-- StyleLibs for interactive map -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn3.devexpress.com/jslib/22.1.6/css/dx.common.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn3.devexpress.com/jslib/22.1.6/css/dx.light.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <!-- Personal Scripts  -->
+    <script src="../static/mapData.js"></script>
     <script>
-        function apear() {
-          for (var i = 0; i < 3; i++) {
-            console.log(result[i]);
-            document.getElementById("other_positions").innerHTML += `${}a <br />`;
-        }
-      }
+      const roomsData = {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: {
+              name: "Exemplo feature",
+              x: {{result[0][0]}},
+              x: {{result[0][0]}},
+            },
+            geometry: {
+              type: "Line", 
+              coordinates: [
+                [
+                  // coordenadas dos lados
+                  // o "resX" e "resY" representam a resolução da coordenada para caberem no mapa
+                  [954 - resX, -68 + resY],
+                  [954 - resX, -321 + resY],
+                  [1106 - resX, -321 + resY],
+                  [1106 - resX, -68 + resY],
+                ],
+              ],
+            },
+          },
+        ],
+      };
     </script>
-    <h1>Tentativa de integração do robo com o coiso enfim</h1>
+  </head>
+  <body class="container">
+    <div class="row">
+      <section id="info" class="col-lg">
+        <h1>Robô digital</h1>
 
-    <div>
-      <h2>Posição atual do robo:</h2>
-      <p>
-        passo: {{result[0][0]}}, x = {{result[0][1]}}, y = {{result[0][2]}}, z =
-        {{result[0][3]}}
-      </p>
+        <div>
+          <h3>Posição atual do robo:</h3>
+          <p>
+            passo: {{result[0][0]}}, x = {{result[0][1]}}, y = {{result[0][2]}},
+            z = {{result[0][3]}}
+          </p>
+        </div>
+
+        <br />
+        <div>
+          <h3>Adicionar posição:</h3>
+          <form action="/set_position" method="POST">
+            <label for="x">posição X: </label>
+            <input type="number" id="x" name="x" />
+            <br />
+
+            <label for="y">posição Y: </label>
+            <input type="number" id="y" name="y" />
+            <br />
+
+            <label for="z">posição Z: </label>
+            <input type="number" id="z" name="z" />
+            <br />
+
+            <input type="submit" value="Add position" />
+          </form>
+        </div>
+
+        <h3>Outras posições do robô:</h3>
+        <div class="positions">
+          {%for position in result%}
+          <p id="position_{{position[0]}}">
+            passo: {{position[0]}}, x = {{position[1]}}, y = {{position[2]}}, z
+            = {{position[3]}}
+          </p>
+          {% endfor %}
+        </div>
+      </section>
+      <section id="mapa" class="col-lg">
+        <h2>Mapa interativo</h2>
+        <div id="map">
+          <div class="demo-container">
+            <div id="vector-map"></div>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <br />
-    <div>
-      <h2>Adicionar posição:</h2>
-      <form action="/set_position" method="POST">
-        <label for="x">posição X: </label>
-        <input type="number" id="x" name="x" />
-        <br />
-
-        <label for="y">posição Y: </label>
-        <input type="number" id="y" name="y" />
-        <br />
-
-        <label for="z">posição Z: </label>
-        <input type="number" id="z" name="z" />
-        <br />
-
-        <input type="submit" value="Add position" />
-      </form>
-    </div>
-
-    <div>
-      <h2 onclick="apear()">Outras posições do robô:</h2>
-      <p id="other_positions"></p>
-    </div>
+    <script src="../static/mapSrc.js"></script>
   </body>
 </html>
