@@ -1,19 +1,21 @@
 [gd_scene load_steps=3 format=3 uid="uid://cwr0kxi6pba8v"]
 
-[ext_resource type="Script" path="res://MainNode.gd" id="1_gynj4"]
+[ext_resource type="Script" path="res://CenaPrincipal.gd" id="1_v4djh"]
 [ext_resource type="Texture2D" uid="uid://cnvahigpir2oo" path="res://icon.svg" id="2_fun47"]
 
 [node name="MainNode" type="Node2D"]
 position = Vector2(0, 1)
-script = ExtResource("1_gynj4")
+script = ExtResource("1_v4djh")
 
 [node name="Robozinho" type="Sprite2D" parent="."]
-position = Vector2(187, 181)
-scale = Vector2(0.71875, 0.71875)
+position = Vector2(187.5, 193.5)
+scale = Vector2(0.726562, 0.742187)
 texture = ExtResource("2_fun47")
 
 [node name="Robozinho2" type="Sprite2D" parent="."]
 modulate = Color(1, 0, 1, 1)
-position = Vector2(188, 423)
+position = Vector2(193, 388)
 scale = Vector2(0.71875, 0.71875)
 texture = ExtResource("2_fun47")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]

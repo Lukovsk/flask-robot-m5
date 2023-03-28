@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -10,7 +10,8 @@ sql.execute('''CREATE TABLE IF NOT EXISTS robot
             (id INTEGER PRIMARY KEY AUTOINCREMENT,
             x FLOAT,
             y FLOAT,
-            z FLOAT)''')
+            z FLOAT,
+            rotation FLOAT)''')
 
 db.commit()
 db.close()
@@ -34,30 +35,56 @@ def robot():
 
 
 # Mostrar posição do robo
-# @app.route('/robot', methods=['GET'])
-# def get_robot_position():
-#     db = sqlite3.connect('robot.db')
-#     sql = db.cursor()
-#     # pega a última posição do robo
-#     sql.execute('SELECT * FROM robot ORDER BY id DESC LIMITE 1')
-#     result = sql.fetchone()
-#     db.close()
-#     if result:
-#         return render_template('robot.html', result=result)
-#     else:
-#         return jsonify({'error': 'Posicao do robo nao encontrada'})
+@app.get('/get_position')
+def get_robot_position():
+    db = sqlite3.connect('robot.db')
+    sql = db.cursor()
+    # pega a última posição do robo
+    sql.execute('SELECT * FROM robot ORDER BY id DESC LIMIT 1')
+    result = sql.fetchone()
+    db.close()
+    if result:
+        return jsonify({'x': result[0],
+                        'y': result[1],
+                        'z': result[2],
+                        'rotation': result[3],
+                        'status': 'Success'})
+    else:
+        return jsonify({'error': 'Posicao do robo nao encontrada'})
+
+# Faz o robô passar por todas as posições
+
+
+@app.get('/get_all_positions')
+def get_all_positions():
+    try:
+        db = sqlite3.connect('robot.db')
+        sql = db.cursor()
+        sql.execute('SELECT * FROM robot ORDER BY id DESC')
+        result = sql.fetchall()
+        db.close()
+        print(result)
+        return jsonify(result)
+
+    except Exception as err:
+        print(str(err))
+        return jsonify({'error': str(err)})
 
 # Definir a posição do robo
+
+
 @app.post('/set_position')
 def set_robot_position():
     x = request. form['x']
     y = request. form['y']
     z = request. form['z']
+    rot = request.form['rotation']
 
     db = sqlite3.connect('robot.db')
 
     sql = db.cursor()
-    sql.execute(f'INSERT INTO robot (x, y, z) VALUES ({x}, {y}, {z})')
+    sql.execute(
+        f'INSERT INTO robot (x, y, z, rotation) VALUES ({x}, {y}, {z}, {rot})')
 
     db.commit()
     db.close()

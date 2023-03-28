@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://blpjbhqkcy564"]
+
+[ext_resource type="Script" path="res://CanvasLayer.gd" id="1_ytp2h"]
+[ext_resource type="Texture2D" uid="uid://cnvahigpir2oo" path="res://icon.svg" id="2_bwnpp"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_ytp2h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(518, 281)
+texture = ExtResource("2_bwnpp")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
