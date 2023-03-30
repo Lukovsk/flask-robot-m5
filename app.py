@@ -44,11 +44,7 @@ def get_robot_position():
     result = sql.fetchone()
     db.close()
     if result:
-        return jsonify({'x': result[0],
-                        'y': result[1],
-                        'z': result[2],
-                        'rotation': result[3],
-                        'status': 'Success'})
+        return jsonify([result])
     else:
         return jsonify({'error': 'Posicao do robo nao encontrada'})
 

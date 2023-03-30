@@ -7,10 +7,10 @@
 script = ExtResource("1_ytp2h")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(518, 281)
+position = Vector2(444, 322)
+rotation = 5.83813
+scale = Vector2(1.001, 1.001)
 texture = ExtResource("2_bwnpp")
-
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
 
