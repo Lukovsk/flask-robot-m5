@@ -37,16 +37,17 @@ def robot():
 # Mostrar posição do robo
 @app.get('/get_position')
 def get_robot_position():
-    db = sqlite3.connect('robot.db')
-    sql = db.cursor()
-    # pega a última posição do robo
-    sql.execute('SELECT * FROM robot ORDER BY id DESC LIMIT 1')
-    result = sql.fetchone()
-    db.close()
-    if result:
+    try:
+        db = sqlite3.connect('robot.db')
+        sql = db.cursor()
+        # pega a última posição do robo
+        sql.execute('SELECT * FROM robot ORDER BY id DESC LIMIT 1')
+        result = sql.fetchone()
+        db.close()
         return jsonify([result])
-    else:
-        return jsonify({'error': 'Posicao do robo nao encontrada'})
+    except Exception as err:
+        print("Erro:" + str(err))
+        return jsonify({'error': str(err)})
 
 # Faz o robô passar por todas as posições
 
@@ -63,7 +64,7 @@ def get_all_positions():
         return jsonify(result)
 
     except Exception as err:
-        print(str(err))
+        print("Erro:" + str(err))
         return jsonify({'error': str(err)})
 
 # Definir a posição do robo
@@ -71,21 +72,25 @@ def get_all_positions():
 
 @app.post('/set_position')
 def set_robot_position():
-    x = request. form['x']
-    y = request. form['y']
-    z = request. form['z']
-    rot = request.form['rotation']
+    try:
+        x = request. form['x']
+        y = request. form['y']
+        z = request. form['z']
+        rot = request.form['rotation']
 
-    db = sqlite3.connect('robot.db')
+        db = sqlite3.connect('robot.db')
 
-    sql = db.cursor()
-    sql.execute(
-        f'INSERT INTO robot (x, y, z, rotation) VALUES ({x}, {y}, {z}, {rot})')
+        sql = db.cursor()
+        sql.execute(
+            f'INSERT INTO robot (x, y, z, rotation) VALUES ({x}, {y}, {z}, {rot})')
 
-    db.commit()
-    db.close()
+        db.commit()
+        db.close()
 
-    return redirect('/')
+        return redirect('/')
+    except Exception as err:
+        print("Erro:" + str(err))
+        return "<h1> Alguma coisa deu errado na inserção de uma nova posição :( </h1>"
 
 
 if __name__ == '__main__':
