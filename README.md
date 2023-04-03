@@ -28,10 +28,13 @@ Acessando a rota, temos uma página simples em html sem css que possui três par
 <img src="./public/frontend.png"/>
 
 ## Backend
+
+### Imports e tabela
 No backend, há os imports e a criação da tabela *robot*, além da instância do servidor na variável *app*, que será usada para servir as rotas no servidor:
 
 <img src="./public/backenc_imports_table.png">
 
+### Rota frontend
 Em seguida, temos a definição da rota que servirá o frontend em html utilizando a função do flask `render_template`. Além disso, essa rota também acessa o banco de dados e envia todas as linhas do banco de dados em ordem decrescente de id como um array para o frontend:
 
 <img src="./public/backend_route_render_template.png">
@@ -44,15 +47,17 @@ E, também, para pegar apenas a última posição que foi enviada à tabela (já
 
 <img src="./public/frontend_last_position.png">
 
+### Rota POST Position
 Além disso, há, também, uma rota de post de informações que se liga ao form do html, ela pega os dados do form pelo objeto `request` e armazena em variáveis que, após abrirmos uma conexão com o banco de dados, são inseridas na tabela `robot`. Por fim, redirecionamos para a rota principal:
 
 <img src="./public/backend_set_position_post.png">
 
+### Rotas GET Position
 Depois, definimos duas rotas para get de informações:
 * Na primeira, retornamos um json com apenas a última posição. Na simulação, essa rota será constantemente acessada a fim de sempre atualizar a posição do robô digital.
 <img src="./public/backend_last_position_return.png">
 
-* Na segunda rota, retormamos um json com todas as linhas do banco de dados. Na simulação, essa rota será acessada apenas no início a fim do robô digital passar por todas as posições já registradas no banco de dados, como uma "dança" pelo campo:
+* Na segunda rota, retornamos um json com todas as linhas do banco de dados. Na simulação, essa rota será acessada apenas no início a fim do robô digital passar por todas as posições já registradas no banco de dados, como uma "dança" pelo campo:
 <img src="./public/backend_all_positions_return.png">
 
 ## Simulação
