@@ -29,5 +29,5 @@ func _http_request_completed(result, response_code, headers, body):
 	$Timer.start()
 
 func _on_timer_timeout():
-	$Timer.wait_time = 1
+	$Timer.wait_time = 0.3
 	http_request.request("http://127.0.0.1:5000/get_position")

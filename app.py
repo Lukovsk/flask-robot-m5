@@ -33,43 +33,7 @@ def robot():
     except Exception as e:
         return render_template('robot.html', result=str(e))
 
-
-# Mostrar posição do robo
-@app.get('/get_position')
-def get_robot_position():
-    try:
-        db = sqlite3.connect('robot.db')
-        sql = db.cursor()
-        # pega a última posição do robo
-        sql.execute('SELECT * FROM robot ORDER BY id DESC LIMIT 1')
-        result = sql.fetchone()
-        db.close()
-        return jsonify([result])
-    except Exception as err:
-        print("Erro:" + str(err))
-        return jsonify({'error': str(err)})
-
-# Faz o robô passar por todas as posições
-
-
-@app.get('/get_all_positions')
-def get_all_positions():
-    try:
-        db = sqlite3.connect('robot.db')
-        sql = db.cursor()
-        sql.execute('SELECT * FROM robot ORDER BY id DESC')
-        result = sql.fetchall()
-        db.close()
-        print(result)
-        return jsonify(result)
-
-    except Exception as err:
-        print("Erro:" + str(err))
-        return jsonify({'error': str(err)})
-
 # Definir a posição do robo
-
-
 @app.post('/set_position')
 def set_robot_position():
     try:
@@ -92,6 +56,35 @@ def set_robot_position():
         print("Erro:" + str(err))
         return "<h1> Alguma coisa deu errado na inserção de uma nova posição :( </h1>"
 
+# Mostrar posição do robo
+@app.get('/get_position')
+def get_robot_position():
+    try:
+        db = sqlite3.connect('robot.db')
+        sql = db.cursor()
+        sql.execute('SELECT * FROM robot ORDER BY id DESC LIMIT 1')
+        result = sql.fetchone()
+        db.close()
+        return jsonify([result])
+    except Exception as err:
+        print("Erro:" + str(err))
+        return jsonify({'error': str(err)})
+
+# Faz o robô passar por todas as posições
+@app.get('/get_all_positions')
+def get_all_positions():
+    try:
+        db = sqlite3.connect('robot.db')
+        sql = db.cursor()
+        sql.execute('SELECT * FROM robot ORDER BY id DESC')
+        result = sql.fetchall()
+        db.close()
+        print(result)
+        return jsonify(result)
+
+    except Exception as err:
+        print("Erro:" + str(err))
+        return jsonify({'error': str(err)})
 
 if __name__ == '__main__':
     app.run(debug=True)
